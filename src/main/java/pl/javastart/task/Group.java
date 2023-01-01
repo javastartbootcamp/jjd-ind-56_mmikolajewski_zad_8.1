@@ -9,7 +9,7 @@ public class Group {
     private final int maxStudents = 20;
     private int studentsNumber = 0;
     private Student[] students = new Student[maxStudents];
-    private int[] grades = new int[maxStudents];
+    private double[] studentsGrades = new double[maxStudents];
 
     public Group(String code, String name, int lecturerId) {
         this.code = code;
@@ -29,7 +29,7 @@ public class Group {
     public Student findStudent(int index) {
         Student student = null;
         for (int i = 0; i < studentsNumber; i++) {
-            if (students[i] != null & students[i].getIndex() == index) {
+            if (students[i] != null && students[i].getIndex() == index) {
                 student = students[i];
             }
         }
@@ -39,14 +39,26 @@ public class Group {
     public int findStudentIndex(int index) {
         int number = 0;
         for (int i = 0; i < studentsNumber; i++) {
-            if (students[i] != null & students[i].getIndex() == index) {
+            if (students[i] != null && students[i].getIndex() == index) {
                 number = i;
             }
         }
         return number;
     }
 
-    public void printInfo() {
+    public double findStudentGrade(int index) {
+        double grade = 0;
+        if (studentsGrades[index] != 0) {
+            grade = studentsGrades[index];
+        }
+        return grade;
+    }
+
+    public void addGradeForStudent(double grade, int arrayIndex) {
+        studentsGrades[arrayIndex] = grade;
+    }
+
+    public void printGroupInfo() {
         System.out.println("Kod: " + code + "");
         System.out.println("Nazwa: " + name + "");
         System.out.println("Prowadzący: " + lecturer.printInfo() + "");
@@ -55,7 +67,18 @@ public class Group {
                 System.out.println(students[i].printInfo());
             }
         }
+    }
 
+    public void printStudentInfoAndGradeForThisGroup() {
+        for (int i = 0; i < studentsNumber; i++) {
+            if (students[i] != null) {
+                System.out.println(students[i].printInfo() + ": " + studentsGrades[i]);
+            }
+        }
+    }
+
+    public void printStudentGradeForThisGroup(int i) {
+        System.out.println(name + ": " + studentsGrades[i]);
     }
 
     public String getCode() {

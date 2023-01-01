@@ -34,7 +34,6 @@ public class UniversityApp {
 
     }
 
-
     /**
      * Dodaje studenta do grupy zajęciowej.
      * W przypadku gdy grupa zajęciowa nie istnieje wyświetlany jest komunikat:
@@ -47,10 +46,7 @@ public class UniversityApp {
      */
     public void addStudentToGroup(int index, String groupCode, String firstName, String lastName) {
         university.addStudentToGroup(index, groupCode, firstName, lastName);
-
     }
-
-
     /**
      * Wyświetla informacje o grupie w zadanym formacie.
      * Oczekiwany format:
@@ -65,6 +61,7 @@ public class UniversityApp {
      *
      * @param groupCode - kod grupy, dla której wyświetlić informacje
      */
+
     public void printGroupInfo(String groupCode) {
         university.printGroupInfo(groupCode);
 
@@ -85,6 +82,7 @@ public class UniversityApp {
      * @param grade        - ocena
      */
     public void addGrade(int studentIndex, String groupCode, double grade) {
+        university.addGrade(studentIndex, groupCode, grade);
 
     }
 
@@ -97,6 +95,7 @@ public class UniversityApp {
      * @param index - numer indesku studenta dla którego wyświetlić oceny
      */
     public void printGradesForStudent(int index) {
+        university.printGradesForStudent(index);
 
     }
 
@@ -110,7 +109,7 @@ public class UniversityApp {
      * @param groupCode - kod grupy, dla której wyświetlić oceny
      */
     public void printGradesForGroup(String groupCode) {
-
+        university.printGradesForGroup(groupCode);
     }
 
     /**
