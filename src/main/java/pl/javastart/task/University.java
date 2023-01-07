@@ -1,21 +1,24 @@
 package pl.javastart.task;
 
+import java.util.Arrays;
+
 public class University {
-    private static final int MAX_LECTURERS = 200;
-    private static final int MAX_STUDENTS = 200;
-    private static final int MAX_GROUPS = 200;
 
-    private static int lecturerNumber = 0;
-    private static int studentNumber = 0;
-    private static int groupsNumber = 0;
+    private static final int INIT_LECTURERS_CAPACITY = 20;
+    private static final int INIT_STUDENT_CAPACITY = 20;
+    private static final int INIT_GROUP_CAPACITY = 20;
+    private int lecturerNumber = 0;
+    private int studentNumber = 0;
+    private int groupsNumber = 0;
 
-    private Lecturer[] lecturers = new Lecturer[MAX_LECTURERS];
-    private Student[] students = new Student[MAX_STUDENTS];
-    private Group[] groups = new Group[MAX_GROUPS];
+    private Lecturer[] lecturers = new Lecturer[INIT_LECTURERS_CAPACITY];
+    private Student[] students = new Student[INIT_STUDENT_CAPACITY];
+    private Group[] groups = new Group[INIT_GROUP_CAPACITY];
 
     public void createLecturer(int id, String degree, String firstName, String lastName) {
         if (findLecturer(id) == null) {
             Lecturer lecturer = new Lecturer(id, degree, firstName, lastName);
+            ensureLecturerCapacity();
             lecturers[lecturerNumber] = lecturer;
             lecturerNumber++;
         } else {
@@ -23,10 +26,17 @@ public class University {
         }
     }
 
+    private void ensureLecturerCapacity() {
+        if (lecturers.length == lecturerNumber) {
+            lecturers = Arrays.copyOf(lecturers, lecturers.length * 2);
+        }
+    }
+
     public Student createStudent(int index, String groupCode, String firstName, String lastName) {
         Student student = null;
         if (findStudent(index) == null) {
             student = new Student(index, groupCode, firstName, lastName);
+            ensureStudentCapacity();
             students[studentNumber] = student;
             studentNumber++;
         } else {
@@ -35,69 +45,76 @@ public class University {
         return student;
     }
 
-    public void createGroup(String code, String name, int lecturerId) {
-        Group isGroup = findGroup(code);
-        Lecturer isLecturer = findLecturer(lecturerId);
-        if (isGroup != null) {
-            System.out.println("Grupa " + code + " już istnieje");
+    private void ensureStudentCapacity() {
+        if (students.length == studentNumber) {
+            students = Arrays.copyOf(students, students.length * 2);
         }
-        if (isLecturer == null) {
+    }
+
+    public void createGroup(String code, String name, int lecturerId) {
+        Group foundGroup = findGroup(code);
+        Lecturer lecturer = findLecturer(lecturerId);
+        if (foundGroup != null) {
+            System.out.println("Grupa " + code + " już istnieje");
+            return;
+        }
+        if (lecturer == null) {
             System.out.println("Prowadzący z id " + lecturerId + " nie istnieje");
         }
-        if (isGroup == null && isLecturer != null) {
-            Group group = new Group(code, name, lecturerId);
+        if (lecturer != null) {
+            if (groups.length == groupsNumber) {
+                groups = Arrays.copyOf(groups, groups.length * 2);
+            }
+            Group group = new Group(code, name, lecturer);
             groups[groupsNumber] = group;
-            groups[groupsNumber].lecturer = isLecturer;
+            groups[groupsNumber].lecturer = lecturer;
             groupsNumber++;
         }
     }
 
     public void addStudentToGroup(int index, String groupCode, String firstName, String lastName) {
-        Group isGroup = null;
-        Student isStudent = null;
-        Student isStudentInGroup = null;
+        Group group = findGroup(groupCode);
 
         if (findGroup(groupCode) == null) {
             System.out.println("Grupa " + groupCode + " nie istnieje");
-        } else {
-            isGroup = findGroup(groupCode);
-            isStudent = findStudent(index);
-            isStudentInGroup = isGroup.findStudent(index);
+            return;
         }
-        if (isStudent == null) {
-            isStudent = createStudent(index, groupCode, firstName, lastName);
+        Student student = findStudent(index);
+        Student studentInGroup = group.findStudent(index);
+
+        if (student == null) {
+            student = createStudent(index, groupCode, firstName, lastName);
         }
-        if (isStudentInGroup != null) {
+        if (studentInGroup != null) {
             System.out.println("Student o indeksie " + index + " jest już w grupie " + groupCode);
         }
-        if (isGroup != null && isStudentInGroup == null) {
-            isGroup.addStudent(isStudent);
+        if (studentInGroup == null) {
+            group.addStudent(student);
         }
 
     }
 
     public void addGrade(int studentIndex, String groupCode, double grade) {
-        Group isGroup = null;
-        Student isStudentInGroup = null;
-        int i = 0;
-        double isGrade = 0;
+        Group group = findGroup(groupCode);
+        int indexInArrayForStudent = 0;
+        double gradeValue = 0;
 
         if (findGroup(groupCode) == null) {
             System.out.println("Grupa " + groupCode + " nie istnieje");
-        } else {
-            isGroup = findGroup(groupCode);
-            isStudentInGroup = isGroup.findStudent(studentIndex);
-            i = isGroup.findStudentIndex(studentIndex);
-            isGrade = isGroup.findStudentGrade(i);
+            return;
         }
-        if (isStudentInGroup == null) {
+        Student studentInGroup = group.findStudent(studentIndex);
+        indexInArrayForStudent = group.findArrayIndexForStudent(studentIndex);
+        gradeValue = group.findStudentGrade(indexInArrayForStudent);
+
+        if (studentInGroup == null) {
             System.out.println("Student o indeksie " + studentIndex + " nie jest zapisany do grupy " + groupCode);
         }
-        if (isStudentInGroup != null && isGrade != 0) {
+        if (studentInGroup != null && gradeValue != 0) {
             System.out.println("Student o indeksie " + studentIndex + " ma już wystawioną ocenę dla grupy " + groupCode);
         }
-        if (isStudentInGroup != null && isGrade == 0) {
-            isGroup.addGradeForStudent(grade, i);
+        if (studentInGroup != null && gradeValue == 0) {
+            group.addGradeForStudent(grade, indexInArrayForStudent);
         }
     }
 
@@ -142,6 +159,9 @@ public class University {
             if (groups[i] != null && groups[i].getCode() == groupCode) {
                 group = groups[i];
             }
+        }
+        if (group == null) {
+            System.out.println("Grupa " + groupCode + " nie istnieje");
         }
         return group;
     }

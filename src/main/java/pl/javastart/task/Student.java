@@ -3,7 +3,6 @@ package pl.javastart.task;
 public class Student extends Person {
     private int index;
     private String groupCode;
-    Grade grade;
 
     public Student(int index, String groupCode, String firstName, String lastName) {
         super(firstName, lastName);
@@ -31,11 +30,4 @@ public class Student extends Person {
         this.groupCode = groupCode;
     }
 
-    public Grade getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Grade grade) {
-        this.grade = grade;
-    }
 }

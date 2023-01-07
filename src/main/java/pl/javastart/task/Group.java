@@ -11,10 +11,10 @@ public class Group {
     private Student[] students = new Student[maxStudents];
     private double[] studentsGrades = new double[maxStudents];
 
-    public Group(String code, String name, int lecturerId) {
+    public Group(String code, String name, Lecturer lecturer) {
         this.code = code;
         this.name = name;
-        this.lecturerId = lecturerId;
+        this.lecturer = lecturer;
     }
 
     public void addStudent(Student student) {
@@ -36,7 +36,7 @@ public class Group {
         return student;
     }
 
-    public int findStudentIndex(int index) {
+    public int findArrayIndexForStudent(int index) {
         int number = 0;
         for (int i = 0; i < studentsNumber; i++) {
             if (students[i] != null && students[i].getIndex() == index) {
