@@ -35,7 +35,8 @@ public class University {
     public Student createStudent(int index, String groupCode, String firstName, String lastName) {
         Student student = null;
         if (findStudent(index) == null) {
-            student = new Student(index, groupCode, firstName, lastName);
+            Group foundGroup = findGroup(groupCode);
+            student = new Student(index, foundGroup, firstName, lastName);
             ensureStudentCapacity();
             students[studentNumber] = student;
             studentNumber++;
@@ -67,7 +68,7 @@ public class University {
             }
             Group group = new Group(code, name, lecturer);
             groups[groupsNumber] = group;
-            groups[groupsNumber].lecturer = lecturer;
+            groups[groupsNumber].setLecturer(lecturer);
             groupsNumber++;
         }
     }

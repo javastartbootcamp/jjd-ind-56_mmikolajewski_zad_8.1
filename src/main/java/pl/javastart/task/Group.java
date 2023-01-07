@@ -3,8 +3,7 @@ package pl.javastart.task;
 public class Group {
     private String code;
     private String name;
-    private int lecturerId;
-    Lecturer lecturer;
+    private Lecturer lecturer;
 
     private final int maxStudents = 20;
     private int studentsNumber = 0;
@@ -95,14 +94,6 @@ public class Group {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getLecturerId() {
-        return lecturerId;
-    }
-
-    public void setLecturerId(int lecturerId) {
-        this.lecturerId = lecturerId;
     }
 
     public Lecturer getLecturer() {

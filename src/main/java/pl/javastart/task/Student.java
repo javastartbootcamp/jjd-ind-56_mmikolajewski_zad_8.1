@@ -2,12 +2,12 @@ package pl.javastart.task;
 
 public class Student extends Person {
     private int index;
-    private String groupCode;
+    private Group group;
 
-    public Student(int index, String groupCode, String firstName, String lastName) {
+    public Student(int index, Group group, String firstName, String lastName) {
         super(firstName, lastName);
         this.index = index;
-        this.groupCode = groupCode;
+        this.group = group;
     }
 
     public String printInfo() {
@@ -22,12 +22,11 @@ public class Student extends Person {
         this.index = index;
     }
 
-    public String getGroupCode() {
-        return groupCode;
+    public Group getGroup() {
+        return group;
     }
 
-    public void setGroupCode(String groupCode) {
-        this.groupCode = groupCode;
+    public void setGroup(Group group) {
+        this.group = group;
     }
-
 }
