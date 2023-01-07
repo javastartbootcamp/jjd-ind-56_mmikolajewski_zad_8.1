@@ -1,6 +1,7 @@
 package pl.javastart.task;
 
 public class UniversityApp {
+    University university = new University();
 
     /**
      * Tworzy prowadzącego zajęcia.
@@ -13,6 +14,7 @@ public class UniversityApp {
      * @param lastName  - nazwisko prowadzącego
      */
     public void createLecturer(int id, String degree, String firstName, String lastName) {
+        university.createLecturer(id, degree, firstName, lastName);
 
     }
 
@@ -28,9 +30,9 @@ public class UniversityApp {
      * @param lecturerId - identyfikator prowadzącego. Musi zostać wcześniej utworzony za pomocą metody {@link #createLecturer(int, String, String, String)}
      */
     public void createGroup(String code, String name, int lecturerId) {
+        university.createGroup(code, name, lecturerId);
 
     }
-
 
     /**
      * Dodaje studenta do grupy zajęciowej.
@@ -43,10 +45,8 @@ public class UniversityApp {
      * @param lastName  - nazwisko studenta
      */
     public void addStudentToGroup(int index, String groupCode, String firstName, String lastName) {
-
+        university.addStudentToGroup(index, groupCode, firstName, lastName);
     }
-
-
     /**
      * Wyświetla informacje o grupie w zadanym formacie.
      * Oczekiwany format:
@@ -61,7 +61,9 @@ public class UniversityApp {
      *
      * @param groupCode - kod grupy, dla której wyświetlić informacje
      */
+
     public void printGroupInfo(String groupCode) {
+        university.printGroupInfo(groupCode);
 
     }
 
@@ -80,6 +82,7 @@ public class UniversityApp {
      * @param grade        - ocena
      */
     public void addGrade(int studentIndex, String groupCode, double grade) {
+        university.addGrade(studentIndex, groupCode, grade);
 
     }
 
@@ -92,6 +95,7 @@ public class UniversityApp {
      * @param index - numer indesku studenta dla którego wyświetlić oceny
      */
     public void printGradesForStudent(int index) {
+        university.printGradesForStudent(index);
 
     }
 
@@ -105,7 +109,7 @@ public class UniversityApp {
      * @param groupCode - kod grupy, dla której wyświetlić oceny
      */
     public void printGradesForGroup(String groupCode) {
-
+        university.printGradesForGroup(groupCode);
     }
 
     /**
@@ -117,6 +121,6 @@ public class UniversityApp {
      * 189521 Anna Kowalska
      */
     public void printAllStudents() {
-
+        university.printAllStudents();
     }
 }
